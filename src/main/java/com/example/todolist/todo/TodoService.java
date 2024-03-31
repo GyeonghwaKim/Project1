@@ -1,12 +1,9 @@
-package com.example.todolist.service;
+package com.example.todolist.todo;
 
 
-import com.example.todolist.entity.Todo;
-import com.example.todolist.reposit.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 
