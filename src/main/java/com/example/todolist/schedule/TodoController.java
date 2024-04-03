@@ -1,4 +1,4 @@
-package com.example.todolist.todo;
+package com.example.todolist.schedule;
 
 
 import jakarta.validation.Valid;
@@ -24,18 +24,8 @@ public class TodoController {
 
     private final TodoService todoService;
 
-    @GetMapping
-    public String home(Model model) {
-
-        DayOfWeek dayOfWeek = DayOfWeek.from(LocalDate.now());
-        String today = dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN);
-        model.addAttribute("today", today);
-
-
-        /*List<Todo> lists=this.todoRepository.findAll();*/
-        List<Todo> lists = todoService.findByWeek(today);
-        model.addAttribute("lists", lists);
-
+    @ModelAttribute("weeks")
+    public List<String> showWeeks(){
         List<String> weeks = new ArrayList<>();
         weeks.add("월요일");
         weeks.add("화요일");
@@ -44,7 +34,24 @@ public class TodoController {
         weeks.add("금요일");
         weeks.add("토요일");
         weeks.add("일요일");
-        model.addAttribute("weeks", weeks);
+        return weeks;
+    }
+
+    @ModelAttribute("today")
+    public String showToday(){
+        DayOfWeek dayOfWeek = DayOfWeek.from(LocalDate.now());
+        return dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN);
+    }
+
+    @ModelAttribute("lists")
+    public List<Todo> showLists(){
+        String today=showToday();
+        List<Todo> lists = todoService.findByWeek(today);
+        return lists;
+    }
+
+    @GetMapping
+    public String home(Model model) {
 
         model.addAttribute("todoForm",new TodoForm());
 
@@ -59,23 +66,6 @@ public class TodoController {
         log.info("bingingResult = {}",bindingResult);
 
         if(bindingResult.hasErrors()){
-            DayOfWeek dayOfWeek = DayOfWeek.from(LocalDate.now());
-            String today = dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN);
-            model.addAttribute("today", today);
-
-            List<Todo> lists = todoService.findByWeek(today);
-            model.addAttribute("lists", lists);
-
-            List<String> weeks = new ArrayList<>();
-            weeks.add("월요일");
-            weeks.add("화요일");
-            weeks.add("수요일");
-            weeks.add("목요일");
-            weeks.add("금요일");
-            weeks.add("토요일");
-            weeks.add("일요일");
-            model.addAttribute("weeks", weeks);
-
             return "home";
         }
 
@@ -101,6 +91,18 @@ public class TodoController {
         this.todoService.modify(todo,content,week);
 
         return "redirect:/home";
+    }
+
+
+    @GetMapping(value = "/lists")
+    public String showDaily(@RequestParam("week") String week,Model model){
+        model.addAttribute("week",week);
+
+        List<Todo> lists = todoService.findByWeek(week);
+        model.addAttribute("lists", lists);
+
+        log.info("content = {}",week);
+        return "daily";
     }
 
 

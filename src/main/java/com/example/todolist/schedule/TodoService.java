@@ -1,4 +1,4 @@
-package com.example.todolist.todo;
+package com.example.todolist.schedule;
 
 
 import lombok.RequiredArgsConstructor;
