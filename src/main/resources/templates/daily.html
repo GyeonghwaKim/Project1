@@ -1,18 +1,15 @@
-<html layout:decorate="~{layoutDaily}">
+<html layout:decorate="~{layout}">
       <!--todo list 시작-->
-      <div class="container" layout:fragment="daily">
+      <div class="container" layout:fragment="content">
 
         <div class="row">
           <div class="col"><!--여백--></div>
-          <div class="col-8"><div class="text-center"><h1><span th:text="${week}">월요일</span> 할 일</h1></div></div>
+          <div class="col-8"><div class="text-center"><h1><span th:text="${week}">월요일</span>의 일정</h1></div></div>
           <div class="col"><!--여백--></div>
         </div>
 
-        <div class="row">
-            <div class="col"><!--여백--></div>
-            <div class="col-8"><div class="text-center"><h4> <span th:text="${week}">월요일</span> 할 일입니다</h4></div></div>
-            <div class="col"><!--여백--></div>
-        </div>
+        <p></p>
+          <p></p>
 
 <!--        &lt;!&ndash;입력란&ndash;&gt;-->
 <!--        <div class="row">-->

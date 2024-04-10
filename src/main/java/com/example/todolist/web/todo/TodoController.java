@@ -1,6 +1,8 @@
-package com.example.todolist.schedule;
+package com.example.todolist.web.todo;
 
 
+import com.example.todolist.domain.todo.Todo;
+import com.example.todolist.domain.todo.TodoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

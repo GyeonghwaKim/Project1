@@ -1,4 +1,4 @@
-package com.example.todolist.schedule;
+package com.example.todolist.web.todo;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;

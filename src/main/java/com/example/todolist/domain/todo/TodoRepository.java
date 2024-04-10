@@ -1,4 +1,4 @@
-package com.example.todolist.schedule;
+package com.example.todolist.domain.todo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
