@@ -6,6 +6,7 @@ import com.example.todolist.domain.member.MemberRepository;
 import com.example.todolist.domain.member.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,7 +35,7 @@ public class MemberController {
             return "members/signupForm";
         }
         if(!memberCreateForm.getPassword1().equals(memberCreateForm.getPassword2())){
-            bindingResult.rejectValue("password2","passwordInCorrect","" +
+            bindingResult.rejectValue("password2","passwordInCorrect",
                     "2개의 패스워드가 일치하지 않습니다");
             return "members/signupForm";
         }
@@ -52,6 +55,12 @@ public class MemberController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/login")
+    public String login(){
+        return "login/loginForm";
+    }
+
 
 
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberService {
 
-    private final MemberJpaRepository memberJpaRepository;
+    private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
     //회원데이터생성
@@ -21,7 +21,7 @@ public class MemberService {
         member.setEmail(memberCreateForm.getEmail());
 
         member.setPassword(passwordEncoder.encode(memberCreateForm.getPassword1()));
-        this.memberJpaRepository.save(member);
+        this.memberRepository.save(member);
         return member;
 
     }

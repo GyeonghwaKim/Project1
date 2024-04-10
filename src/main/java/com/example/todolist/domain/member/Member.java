@@ -28,4 +28,6 @@ public class Member {
     @Column(unique=true)
     private String email;
 
+
+
 }
