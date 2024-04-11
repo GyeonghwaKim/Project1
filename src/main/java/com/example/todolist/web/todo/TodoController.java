@@ -26,31 +26,7 @@ public class TodoController {
 
     private final TodoService todoService;
 
-    @ModelAttribute("weeks")
-    public List<String> showWeeks(){
-        List<String> weeks = new ArrayList<>();
-        weeks.add("월요일");
-        weeks.add("화요일");
-        weeks.add("수요일");
-        weeks.add("목요일");
-        weeks.add("금요일");
-        weeks.add("토요일");
-        weeks.add("일요일");
-        return weeks;
-    }
 
-    @ModelAttribute("today")
-    public String showToday(){
-        DayOfWeek dayOfWeek = DayOfWeek.from(LocalDate.now());
-        return dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN);
-    }
-
-    @ModelAttribute("lists")
-    public List<Todo> showLists(){
-        String today=showToday();
-        List<Todo> lists = todoService.findByWeek(today);
-        return lists;
-    }
 
     @GetMapping
     public String home(Model model) {
