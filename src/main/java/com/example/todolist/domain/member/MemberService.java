@@ -25,4 +25,8 @@ public class MemberService {
         return member;
 
     }
+
+    public Member getMember(String loginId){
+        return this.memberRepository.findByLoginId(loginId).get();
+    }
 }

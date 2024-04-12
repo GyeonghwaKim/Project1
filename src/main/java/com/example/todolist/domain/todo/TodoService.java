@@ -1,6 +1,7 @@
 package com.example.todolist.domain.todo;
 
 
+import com.example.todolist.domain.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,11 @@ public class TodoService {
 
     private final TodoRepository todoRepository;
 
-    public void save(String content,String week){
-        Todo todo=new Todo(content,week);
+    public void save(String content, String week, Member author){
+        Todo todo=new Todo();
+        todo.setContent(content);
+        todo.setWeek(week);
+        todo.setAuthor(author);
         todoRepository.save(todo);
     }
 
@@ -33,7 +37,7 @@ public class TodoService {
         this.todoRepository.save(todo);
     }
 
-    public List<Todo> findByWeek(String today) {
-        return this.todoRepository.findAllByWeek(today);
+    public List<Todo> findByWeekAndAuthor(String today,Member member) {
+        return this.todoRepository.findAllByWeekAndAuthor(today,member);
     }
 }

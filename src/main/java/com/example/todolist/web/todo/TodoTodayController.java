@@ -1,56 +1,65 @@
 package com.example.todolist.web.todo;
 
 
+import com.example.todolist.domain.member.Member;
+import com.example.todolist.domain.member.MemberService;
 import com.example.todolist.domain.todo.Todo;
 import com.example.todolist.domain.todo.TodoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/home")
+@PreAuthorize("isAuthenticated()")
+@RequestMapping("/today")
 @Controller
-public class TodoController {
+public class TodoTodayController {
 
     private final TodoService todoService;
+    private final MemberService memberService;
 
-
-
-    @GetMapping
-    public String home(Model model) {
-
-        model.addAttribute("todoForm",new TodoForm());
-
-        return "home";
-
+    @ModelAttribute("lists")
+    public List<Todo> showLists(Principal principal){
+        DayOfWeek dayOfWeek = DayOfWeek.from(LocalDate.now());
+        String today=dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN);
+        Member member=this.memberService.getMember(principal.getName());
+        return todoService.findByWeekAndAuthor(today,member);
     }
 
 
-    @PostMapping(value = "/lists")
-    public String createTodo(@Valid TodoForm todoForm, BindingResult bindingResult, Model model){
+    @GetMapping
+    public String home(Model model,Principal principal) {
 
-        log.info("bingingResult = {}",bindingResult);
+        model.addAttribute("todoForm",new TodoForm());
+
+        return "todo/today";
+
+    }
+
+    @PostMapping(value = "/lists")
+    public String createTodo(@Valid TodoForm todoForm, BindingResult bindingResult, Principal principal){
+
+        Member member=this.memberService.getMember(principal.getName());
 
         if(bindingResult.hasErrors()){
-            return "home";
+            return "todo/today";
         }
 
-        log.info("Content = {}",todoForm.getContent());
-
-        todoService.save(todoForm.getContent(),todoForm.getWeek());
-        return "redirect:/home";
+        todoService.save(todoForm.getContent(),todoForm.getWeek(),member);
+        return "redirect:/today";
     }
 
     @DeleteMapping(value = "/lists/{id}")
@@ -59,7 +68,7 @@ public class TodoController {
         Todo todo=this.todoService.getTodo(id);
         this.todoService.delete(todo);
 
-        return "redirect:/home";
+        return "redirect:/today";
     }
 
     @PutMapping(value = "/lists/{id}")
@@ -68,20 +77,11 @@ public class TodoController {
         Todo todo=this.todoService.getTodo(id);
         this.todoService.modify(todo,content,week);
 
-        return "redirect:/home";
+        return "redirect:/today";
     }
 
 
-    @GetMapping(value = "/lists")
-    public String showDaily(@RequestParam("week") String week,Model model){
-        model.addAttribute("week",week);
 
-        List<Todo> lists = todoService.findByWeek(week);
-        model.addAttribute("lists", lists);
-
-        log.info("content = {}",week);
-        return "daily";
-    }
 
 
 }

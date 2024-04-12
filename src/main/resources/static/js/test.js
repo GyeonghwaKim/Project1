@@ -1,3 +1,0 @@
-$('#modifyBtn').on('click',function(){
-    
-})

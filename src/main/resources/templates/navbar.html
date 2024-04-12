@@ -1,14 +1,22 @@
 <!--네비게이션바-->
-<nav th:fragment="navbarFragment" class="navbar navbar-expand-lg bg-body-tertiary">
+<nav th:fragment="navbarFragment" class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #F2F9F1;">
   <div class="container-fluid">
-    <a class="navbar-brand" th:href="@{/}">Navbar</a>
+    <a class="navbar-brand" th:href="@{/}">Regularly Things To Do</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" th:href="@{/home}">Home</a>
+          <a class="nav-link active" aria-current="page" th:href="@{/today}">오늘의 일정</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            일정 전체보기
+          </a>
+          <ul class="dropdown-menu" >
+            <li><a class="dropdown-item" th:each="week:${weeks}" th:text="${week}" th:href="@{/weekly/lists(week=${week})}">월요일</a></li>
+          </ul>
         </li>
         <li class="nav-item">
           <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/members/login}">로그인</a>
@@ -16,14 +24,6 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/members/signup}">회원가입</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            전체보기
-          </a>
-          <ul class="dropdown-menu" >
-            <li><a class="dropdown-item" th:each="week:${weeks}" th:text="${week}" th:href="@{/home/lists(week=${week})}">월요일</a></li>
-          </ul>
         </li>
       </ul>
     </div>

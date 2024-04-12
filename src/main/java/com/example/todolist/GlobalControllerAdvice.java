@@ -1,12 +1,19 @@
 package com.example.todolist;
 
 
+import com.example.todolist.domain.member.Member;
+import com.example.todolist.domain.member.MemberRepository;
+import com.example.todolist.domain.member.MemberSecurityService;
+import com.example.todolist.domain.member.MemberService;
 import com.example.todolist.domain.todo.Todo;
 import com.example.todolist.domain.todo.TodoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.security.Principal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
@@ -19,7 +26,7 @@ import java.util.Locale;
 public class GlobalControllerAdvice {
 
     private final TodoService todoService;
-
+    private final MemberService memberService;
     @ModelAttribute("weeks")
     public List<String> showWeeks(){
         List<String> weeks = new ArrayList<>();
@@ -39,11 +46,7 @@ public class GlobalControllerAdvice {
         return dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN);
     }
 
-    @ModelAttribute("lists")
-    public List<Todo> showLists(){
-        String today=showToday();
-        List<Todo> lists = todoService.findByWeek(today);
-        return lists;
-    }
+
+
 
 }

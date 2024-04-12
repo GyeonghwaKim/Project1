@@ -1,6 +1,40 @@
-<html layout:decorate="~{layout}">
-<!--todo list 시작-->
-<div class="container" layout:fragment="content">
-    <h1 style="text-align: center">메인화면입니다</h1>
+<html layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Welcome to RTTD</title>
+</head>
+<body>
+<div class="container" layout:fragment="content" style="text-align: center">
+    <p></p>
+    <h2 sec:authorize="isAuthenticated()"><b>어서오세요 <span th:text="${username}">Guest</span>!</b></h2>
+    <div class="feature">
+    <h2>매일 혹은 매주 하는 일이 있으신가요?</h2>
+    </div>
+    <div class="feature">
+    <h2>그렇다면 Regularly Things To Do에서 일정을 등록해보세요</h2>
+    </div>
+    <div class="features">
+        <div class="feature" >
+            <h3>&lt;오늘의 일정&gt;</h3>
+            <img th:src="@{images/todayTodo.png}" alt="Today's Schedule">
+        </div>
+        <div class="feature" >
+            <h3>&lt;일정 전체보기&gt;</h3>
+            <div>
+                <img th:src="@{images/viewAll.png}" alt="View All">
+            </div>
+        </div>
+
+        <div class="feature">
+            <h3>&lt;요일별 일정 추가&gt;</h3>
+            <img th:src="@{images/weeklyTodo.png}" alt="Weekly Tasks">
+        </div>
+        <div class="feature">
+            <h3>&lt;수정 및 삭제&gt;</h3>
+            <img th:src="@{images/editDelete.png}" alt="Editing and Deletion">
+        </div>
+
+    </div>
 </div>
+
+</body>
 </html>

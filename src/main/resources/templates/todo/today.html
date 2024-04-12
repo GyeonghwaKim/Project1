@@ -4,40 +4,43 @@
 
         <div class="row">
           <div class="col"><!--여백--></div>
-          <div class="col-8"><div class="text-center"><h1><span th:text="${week}">월요일</span>의 일정</h1></div></div>
+          <div class="col-8"><div class="text-center"><h1>오늘의 일정</h1></div></div>
           <div class="col"><!--여백--></div>
         </div>
 
-        <p></p>
-          <p></p>
+        <div class="row">
+            <div class="col"><!--여백--></div>
+            <div class="col-8"><div class="text-center"><h3>오늘은 <span th:text="${today}">월요일</span>입니다</h3></div></div>
+            <div class="col"><!--여백--></div>
+        </div>
 
-<!--        &lt;!&ndash;입력란&ndash;&gt;-->
-<!--        <div class="row">-->
-<!--            <div class="col">&lt;!&ndash;여백&ndash;&gt;</div>-->
-<!--            <div class="col-8">-->
-<!--                <form th:action="@{/home/lists}" th:object="${todoForm}" method="post">-->
+        <!--입력란-->
+        <div class="row">
+            <div class="col"><!--여백--></div>
+            <div class="col-8">
+                <form th:action="@{/today/lists}" th:object="${todoForm}" method="post">
 
-<!--                    <div class="row container">-->
-<!--                        <div class="col-9">-->
-<!--                            <input type="text" th:field="*{content}" class="form-control" placeholder="내용 입력"/>-->
-<!--                            <div class="error" th:errors="*{content}"></div>-->
+                    <div class="row container">
+                        <div class="col-9">
+                            <input type="text" th:field="*{content}" class="form-control" placeholder="내용 입력"/>
+                            <div class="error" th:errors="*{content}"></div>
 
-<!--                        </div>-->
+                        </div>
 
-<!--                        <div class="col-2">-->
-<!--                            <select th:field="*{week}" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">-->
-<!--                                <option th:each="week : ${weeks}" th:value="${week}" th:text="${week}"></option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                        <div class="col-1">-->
-<!--                            <button class="btn btn-outline-secondary">SAVE</button>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </form>-->
-<!--            </div>-->
-<!--            <div class="col">&lt;!&ndash;여백&ndash;&gt;</div>-->
-<!--        </div>-->
-
+                        <div class="col-2">
+                            <select name="week" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+                                <option th:each="week : ${weeks}" th:value="${week}" th:text="${week}" th:selected="${week} == ${today}"></option>
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-outline-secondary" >SAVE</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col"><!--여백--></div>
+        </div>
+<p></p>
         <div class="row" >
             <div class="col"><!--여백--></div>
             <div class="col-8 listBox">
@@ -51,13 +54,13 @@
                                 style="margin-left: 20px">수정</button>
                             </div>
                             <div class="col">
-                                <form th:action="@{|/home/lists/${list.id}|}" th:method="delete">
+                                <form th:action="@{|/today/lists/${list.id}|}" th:method="delete">
                                     <button class="btn btn-outline-secondary">삭제</button>
                                 </form>
                             </div>
                         </div>
                         <div id="display" class="row container">
-                            <form th:action="@{|/home/lists/${list.id}|}" th:method="put">
+                            <form th:action="@{|/today/lists/${list.id}|}" th:method="put">
                                     <input style="width:auto;" name="modifyContent"/>
                                     <select name="modifyWeek" id="">
                                         <option th:each="week : ${weeks}" th:value="${week}"th:text="${week}">월요일</option>
@@ -69,7 +72,7 @@
 
                 </ul>
             </div>
-            <div class="col"><!--여백--></div>   
+            <div class="col"><!--여백--></div>
         </div>
 
           <script>
